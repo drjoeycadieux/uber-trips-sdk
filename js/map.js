@@ -26,23 +26,29 @@ map.addControl(new mapboxgl.NavigationControl());
 // disable map zoom when using scroll
 map.scrollZoom.disable();
 
-const uberApiKey = "dfH0ruu2OVrUwMqRFa4YecgIT6aGOvDh6T5YavaT";
 const uberApiUrl = "https://api.uber.com/v1/guests/trips/{}";
+const uberApiKey = "dfH0ruu2OVrUwMqRFa4YecgIT6aGOvDh6T5YavaT";
+const applicationId = "qilcHm9aDOECPNDdji11DOlCM0pg6FlA";
 
+// Fetch data from Uber API
 fetch(uberApiUrl, {
   headers: {
     Authorization: `Bearer ${uberApiKey}`,
     "Content-Type": "application/json",
+    "Uber-User-Agent": `UberSDK/${applicationId}`,
   },
-  mode: "cors",
 })
   .then((response) => response.json())
   .then((data) => {
+    // Process the Uber API response and display on the map
     console.log(data);
 
+    // Add your logic to process the Uber API data and display on the map
     data.trips.forEach((trip) => {
+      // Assuming each trip has a latitude and longitude
       const { latitude, longitude } = trip.location;
 
+      // Create a Mapbox marker for each trip
       new mapboxgl.Marker().setLngLat([longitude, latitude]).addTo(map);
     });
   })
