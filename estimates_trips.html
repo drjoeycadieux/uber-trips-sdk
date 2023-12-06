@@ -6,7 +6,7 @@
   <script src="https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.js"></script>
   <link href="https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.css" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css">
-  <title>Uber Trip Estimates Map</title>
+  <title>Estimates Map Driver on Maps </title>
 </head>
 <body>
   <div class="header-main-nav">
@@ -89,8 +89,8 @@ map.scrollZoom.disable();
     fetch(uberApiUrl, {
       headers: {
         'Authorization': `Bearer ${uberApiKey}`,
-        'Access-Control-Allow-Credentials' : true,
         'Content-Type': 'application/json',
+        'mode' 'no-cors',
       },
     })
     .then(response => response.json())
