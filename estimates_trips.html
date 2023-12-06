@@ -85,6 +85,13 @@ map.scrollZoom.disable();
 
     const uberApiUrl = `https://api.uber.com/v1/guests/trips/estimates?start_latitude=${startLat}&start_longitude=${startLng}&end_latitude=${endLat}&end_longitude=${endLng}`;
 
+    const requestBody = {
+    pickup.latitude: startLat,
+    pickup.longitude: startLng,
+    dropoff.latitude: endLat,
+    dropoff.longitude: endLng,
+  };
+
     // Fetch data from Uber API for trip estimates
     fetch(uberApiUrl, {
       method: 'GET',
