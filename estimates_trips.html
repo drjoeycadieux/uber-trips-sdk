@@ -62,7 +62,8 @@
       const accessToken = 'dfH0ruu2OVrUwMqRFa4YecgIT6aGOvDh6T5YavaT'; // Replace with your actual access token
 
       fetch(apiUrl, {
-        method: 'POST', // or 'GET' depending on the API documentation
+        method: 'POST',
+        mode: 'no-cors', // or 'GET' depending on the API documentation
         headers: {
           'Authorization': `Bearer ${accessToken}`,
           'Content-Type': 'application/json'
