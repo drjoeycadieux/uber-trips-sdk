@@ -89,6 +89,7 @@ map.scrollZoom.disable();
     fetch(uberApiUrl, {
       headers: {
         'Authorization': `Bearer ${uberApiKey}`,
+        'Access-Control-Allow-Credentials' : true
         'Content-Type': 'application/json',
       },
     })
