@@ -87,7 +87,6 @@ map.scrollZoom.disable();
         'Authorization': `Bearer ${uberApiKey}`,
         'Content-Type': 'application/json',
         'Uber-User-Agent': `UberSDK/${applicationId}`,
-        'mode': 'no-cors',
       },
     })
     .then(response => response.json())
