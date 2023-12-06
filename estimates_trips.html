@@ -3,10 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.js"></script>
-  <link href="https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.css" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css">
-  <title>Estimates Map Driver on Maps </title>
+  <title>Driver on Maps | Uber Request Estimates</title>
 </head>
 <body>
   <div class="header-main-nav">
@@ -30,110 +28,78 @@
    </div>
    <div class="header">
         <p><strong>Welcome to</strong>  Driver on Maps</p>
-        <!-- Add a form for user input -->
-<form id="uberForm">
-  <label for="startLat">Start Latitude:</label>
-  <input type="text" id="startLat" name="startLat" required>
-  <label for="startLng">Start Longitude:</label>
-  <input type="text" id="startLng" name="startLng" required>
-  <label for="endLat">End Latitude:</label>
-  <input type="text" id="endLat" name="endLat" required>
-  <label for="endLng">End Longitude:</label>
-  <input type="text" id="endLng" name="endLng" required>
-  <button type="submit">Get Trip Estimates</button>
-</form>
    </div>
-<div id="map"></div>
+  <form id="uberForm">
+    <label for="startLatitude">Start Latitude:</label>
+    <input type="text" id="startLatitude" name="startLatitude" required>
 
-<script>
-  mapboxgl.accessToken = 'pk.eyJ1Ijoiam9leWNyZWF0b3IiLCJhIjoiY2xwbGR4bmNqMDNmcDJqcGV1OXY4Z2hteiJ9.yMegQFr9KWFFEsgmdbFRyg';
-  const map = new mapboxgl.Map({
-    container: 'map',
-    style: "mapbox://styles/mapbox/dark-v10",
-    center: [-73.5673, 45.5017], // Montreal coordinates (adjust as needed)
-    zoom: 12,
-  });
+    <label for="startLongitude">Start Longitude:</label>
+    <input type="text" id="startLongitude" name="startLongitude" required>
 
-    // Add geolocate control to the map.
-map.addControl(
-  new mapboxgl.GeolocateControl({
-    positionOptions: {
-      enableHighAccuracy: true,
-    },
-    // When active the map will receive updates to the device's location as it changes.
-    trackUserLocation: true,
-    // Draw an arrow next to the location dot to indicate which direction the device is heading.
-    showUserHeading: true,
-  }),
-);
+    <label for="endLatitude">End Latitude:</label>
+    <input type="text" id="endLatitude" name="endLatitude" required>
 
-// Add zoom and rotation controls to the map.
-map.addControl(new mapboxgl.NavigationControl());
+    <label for="endLongitude">End Longitude:</label>
+    <input type="text" id="endLongitude" name="endLongitude" required>
 
-// disable map zoom when using scroll
-map.scrollZoom.disable();
+    <button type="submit">Request Uber</button>
+  </form>
 
-  const uberApiKey = 'dfH0ruu2OVrUwMqRFa4YecgIT6aGOvDh6T5YavaT';
+  <div id="uberResponse">
+    <!-- Display Uber API response here -->
+  </div>
 
-  document.getElementById('uberForm').addEventListener('submit', function(event) {
-    event.preventDefault();
+  <script>
+    document.getElementById('uberForm').addEventListener('submit', function (event) {
+      event.preventDefault();
 
-    const startLat = document.getElementById('startLat').value;
-    const startLng = document.getElementById('startLng').value;
-    const endLat = document.getElementById('endLat').value;
-    const endLng = document.getElementById('endLng').value;
+      const startLatitude = document.getElementById('startLatitude').value;
+      const startLongitude = document.getElementById('startLongitude').value;
+      const endLatitude = document.getElementById('endLatitude').value;
+      const endLongitude = document.getElementById('endLongitude').value;
 
-    const uberApiUrl = `https://api.uber.com/v1/guests/trips/estimates?start_latitude=${startLat}&start_longitude=${startLng}&end_latitude=${endLat}&end_longitude=${endLng}`;
+      const apiUrl = 'https://api.uber.com/v1/guests/trips';
+      const accessToken = 'dfH0ruu2OVrUwMqRFa4YecgIT6aGOvDh6T5YavaT'; // Replace with your actual access token
 
-    const requestBody = {
-    pickup.latitude: startLat,
-    pickup.longitude: startLng,
-    dropoff.latitude: endLat,
-    dropoff.longitude: endLng,
-  };
+      fetch(apiUrl, {
+        method: 'POST', // or 'GET' depending on the API documentation
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          start_latitude: startLatitude,
+          start_longitude: startLongitude,
+          end_latitude: endLatitude,
+          end_longitude: endLongitude
+        })
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then(data => {
+          // Process the data returned from the API
+          console.log(data);
 
-    // Fetch data from Uber API for trip estimates
-    fetch(uberApiUrl, {
-      method: 'GET',
-      mode: 'no-cors',
-      headers: {
-        'Authorization': `Bearer ${uberApiKey}`,
-        'Content-Type': 'application/json',
-      },
-    })
-    .then(response => response.json())
-    .then(data => {
-      // Process the Uber API response and display on the map
-      console.log(data);
-
-      // Add your logic to process the Uber API data and display on the map
-      // For example, you can display the estimated prices or durations.
-
-      // Clear existing markers
-      map.removeLayer('markers');
-      map.removeSource('markers');
-
-      // Add a marker for the start location
-      const startMarker = new mapboxgl.Marker()
-        .setLngLat([parseFloat(startLng), parseFloat(startLat)])
-        .addTo(map);
-
-      // Add a marker for the end location
-      const endMarker = new mapboxgl.Marker()
-        .setLngLat([parseFloat(endLng), parseFloat(endLat)])
-        .addTo(map);
-
-      // Fit the map to the markers
-      const bounds = new mapboxgl.LngLatBounds();
-      bounds.extend(startMarker.getLngLat());
-      bounds.extend(endMarker.getLngLat());
-      map.fitBounds(bounds, { padding: 50 });
-    })
-    .catch(error => {
-      console.error('Error fetching Uber data:', error);
+          // Display the response in the HTML
+          document.getElementById('uberResponse').innerHTML = `
+            <p>Trip ID: ${data.trip_id}</p>
+            <p>Start Location: ${data.start_location.latitude}, ${data.start_location.longitude}</p>
+            <p>End Location: ${data.end_location.latitude}, ${data.end_location.longitude}</p>
+            <p>Driver: ${data.driver.name}, Vehicle: ${data.driver.vehicle}, License Plate: ${data.driver.license_plate}</p>
+            <p>Fare: ${data.fare.amount} ${data.fare.currency}</p>
+            <p>Status: ${data.status}</p>
+          `;
+        })
+        .catch(error => {
+          // Handle any errors that occurred during the fetch
+          console.error('Fetch error:', error);
+        });
     });
-  });
-</script>
+  </script>
 
 </body>
 </html>
