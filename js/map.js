@@ -29,7 +29,6 @@ map.scrollZoom.disable();
 const uberApiKey = "dfH0ruu2OVrUwMqRFa4YecgIT6aGOvDh6T5YavaT";
 const uberApiUrl = "https://api.uber.com/v1/guests/trips/{}";
 
-// Fetch data from Uber API
 fetch(uberApiUrl, {
   headers: {
     Authorization: `Bearer ${uberApiKey}`,
