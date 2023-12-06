@@ -87,10 +87,11 @@ map.scrollZoom.disable();
 
     // Fetch data from Uber API for trip estimates
     fetch(uberApiUrl, {
+      method: 'GET',
+      mode: 'no-cors',
       headers: {
         'Authorization': `Bearer ${uberApiKey}`,
         'Content-Type': 'application/json',
-        'mode': 'no-cors',
       },
     })
     .then(response => response.json())

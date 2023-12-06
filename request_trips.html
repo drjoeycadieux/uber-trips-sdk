@@ -6,7 +6,7 @@
   <script src="https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.js"></script>
   <link href="https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.css" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css">
-  <title>Uber Trips Map</title>
+  <title>Driver on Maps | Trips Maps</title>
 </head>
 <body>
   <div class="header-main-nav">
@@ -81,11 +81,13 @@ map.scrollZoom.disable();
 
     // Fetch data from Uber API for the specific trip ID
     fetch(uberApiUrl, {
+      method: 'GET',
+      mode: 'no-cors',
       headers: {
         'Authorization': `Bearer ${uberApiKey}`,
         'Content-Type': 'application/json',
         'Uber-User-Agent': `UberSDK/${applicationId}`,
-        'mode' 'no-cors',
+        'mode': 'no-cors',
       },
     })
     .then(response => response.json())
