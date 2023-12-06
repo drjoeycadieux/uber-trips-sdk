@@ -7,6 +7,22 @@ const map = new mapboxgl.Map({
   zoom: 12,
 });
 
+// Add geolocate control to the map.
+map.addControl(
+  new mapboxgl.GeolocateControl({
+    positionOptions: {
+      enableHighAccuracy: true,
+    },
+    // When active the map will receive updates to the device's location as it changes.
+    trackUserLocation: true,
+    // Draw an arrow next to the location dot to indicate which direction the device is heading.
+    showUserHeading: true,
+  }),
+);
+
+// Add zoom and rotation controls to the map.
+map.addControl(new mapboxgl.NavigationControl());
+
 // disable map zoom when using scroll
 map.scrollZoom.disable();
 
