@@ -61,7 +61,7 @@
       const apiUrl = 'https://api.uber.com/v1/guests/trips';
       const accessToken = 'dfH0ruu2OVrUwMqRFa4YecgIT6aGOvDh6T5YavaT'; // Replace with your actual access token
 
-      fetch(apiUrl, {
+      fetch(apiUrl {
         method: 'POST',
         mode: 'no-cors', // or 'GET' depending on the API documentation
         headers: {
@@ -95,10 +95,10 @@
             <p>Status: ${data.status}</p>
           `;
         })
-        .catch(error => {
-          // Handle any errors that occurred during the fetch
-          console.error('Fetch error:', error);
-        });
+        // .catch(error => {
+        //   // Handle any errors that occurred during the fetch
+        //   console.error('Fetch error:', error);
+        // });
     });
   </script>
 
