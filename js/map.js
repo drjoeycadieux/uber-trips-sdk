@@ -26,7 +26,7 @@ map.addControl(new mapboxgl.NavigationControl());
 // disable map zoom when using scroll
 map.scrollZoom.disable();
 
-const uberApiUrl = "https://api.uber.com/v1/guests/trips/estimates";
+const uberApiUrl = "https://api.uber.com/v1/guests/trips/{}";
 const uberApiKey = "dfH0ruu2OVrUwMqRFa4YecgIT6aGOvDh6T5YavaT";
 const applicationId = "qilcHm9aDOECPNDdji11DOlCM0pg6FlA";
 
