@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+        }
+
+        #chatContainer {
+            max-width: 600px;
+            margin: 20px auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        #chatMessages {
+            padding: 20px;
+            height: 300px;
+            overflow-y: scroll;
+            background-color: #fff;
+        }
+
+        #messageInput {
+            width: calc(100% - 40px);
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 0 20px;
+        }
+
+        #sendButton {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #sendButton:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="chatContainer">
+        <div id="chatMessages"></div>
+        <input type="text" id="messageInput" placeholder="Type your message...">
+        <button id="sendButton" onclick="sendMessage()">Send</button>
+    </div>
+
+    <script>
+        // Retrieve data from local storage
+        const chatMessages = JSON.parse(localStorage.getItem('chatMessages')) || [];
+
+        function renderMessages() {
+            const chatMessagesDiv = document.getElementById('chatMessages');
+            chatMessagesDiv.innerHTML = '';
+
+            chatMessages.forEach(message => {
+                const messageDiv = document.createElement('div');
+                messageDiv.textContent = message;
+                chatMessagesDiv.appendChild(messageDiv);
+            });
+
+            // Scroll to the bottom to show the latest message
+            chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight;
+        }
+
+        function sendMessage() {
+            const messageInput = document.getElementById('messageInput');
+            const message = messageInput.value;
+
+            if (message.trim() !== '') {
+                chatMessages.push(message);
+
+                // Save data to local storage
+                localStorage.setItem('chatMessages', JSON.stringify(chatMessages));
+
+                // Render updated chat messages
+                renderMessages();
+
+                // Clear input field
+                messageInput.value = '';
+            }
+        }
+
+        // Initial rendering
+        renderMessages();
+    </script>
+
+</body>
+</html>
