@@ -15,7 +15,7 @@ body {
 }
 
 #hero-img {
-  padding: 75px; /* Adjusted padding for smaller screens */
+  padding: 120px; /* Adjusted padding for smaller screens */
   background-image: url("./assets/inm.jpg");
   background-size: cover;
   background-position: center;
